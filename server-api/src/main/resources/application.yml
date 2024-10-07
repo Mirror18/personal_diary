@@ -4,10 +4,58 @@ server:
   tomcat:
     uri-encoding: UTF-8
 
-
 spring:
   application:
     name: personal-diary
-
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
+
+#测试时候专用
+    # Spring Security 配置项，对应 SecurityProperties 配置类
+  security:
+    # 配置默认的 InMemoryUserDetailsManager 的用户账号与密码。
+    user:
+      name: user # 账号
+      password: user # 密码
+      roles: ADMIN # 拥有角色
+
+  devtools:
+    add-properties: true
+sys:
+  jwt:
+    admin-secret-key:
+  #是否开启redisTemplate配置(默认关闭)
+  redis-template-config: true
+  #是否开启restTemplate配置(默认关闭)
+  rest-template-config: true
+  #是否开启json配置(默认关闭)
+  json-config: true
+  #是否启用自定义安全框架
+  enable-my-security: true
+
+
+redisson:
+  address: redis://127.0.0.1:6379
+
+
+#  level:
+#    org.springframework: DEBUG
+security:
+  # 开启安全校验
+  enable: false
+  getUserType: token
+  # 白名单
+  ignores:
+    # swagger
+    - /v3/api-docs
+    - /swagger-resources/configuration/ui
+    - /swagger-resources
+    - /swagger-resources/configuration/security
+    - /webjars/**
+    - /swagger-ui.html
+    - /doc.html
+    - /favicon.ico
+    - /login/*
+    - /reg/*
+    - /wxEvent/receiveMpEvent
+  expire: 36000

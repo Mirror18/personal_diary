@@ -13,7 +13,8 @@
         <module>../common</module>
         <module>../pojo</module>
         <module>../server-api</module>
-        <module>../server</module>
+        <module>../service</module>
+        <module>../repository</module>
     </modules>
 
     <properties>
@@ -24,7 +25,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <!--        版本信息-->
-        <spring-boot.version>3.3.4</spring-boot.version>
+        <spring-boot.version>3.3.0</spring-boot.version>
+        <spring-security.version>6.3.3</spring-security.version>
         <mysql-connector-j.version>9.0.0</mysql-connector-j.version>
         <mybatis-springboot.version>3.0.3</mybatis-springboot.version>
         <org.mapstruct.version>1.5.5.Final</org.mapstruct.version>
@@ -32,6 +34,9 @@
         <maven.compiler.version>3.13.0</maven.compiler.version>
         <jakarta.version>3.1.0</jakarta.version>
         <slf4j.version>2.0.16</slf4j.version>
+        <hutool-all.version>5.8.32</hutool-all.version>
+        <redisson.version>3.36.0</redisson.version>
+        <alicloud.version>3.0.0</alicloud.version>
     </properties>
 
     <dependencies>
@@ -49,25 +54,25 @@
             <artifactId>mysql-connector-j</artifactId>
             <version>${mysql-connector-j.version}</version>
         </dependency>
-
+<!--        mybatis的启动器-->
         <dependency>
             <groupId>org.mybatis.spring.boot</groupId>
             <artifactId>mybatis-spring-boot-starter</artifactId>
             <version>${mybatis-springboot.version}</version>
         </dependency>
-
+<!--mapstruct，一个bean转换器-->
         <dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct</artifactId>
             <version>${org.mapstruct.version}</version>
         </dependency>
-
+<!--这玩意儿必须要有，不然转换的代码对属性没有转换-->
         <dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct-processor</artifactId>
             <version>${org.mapstruct.version}</version>
         </dependency>
-
+<!--常用工具包，用于简化书写的代码，编译后生成完整代码-->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -93,7 +98,7 @@
             <artifactId>spring-boot-devtools</artifactId>
             <version>${spring-boot.version}</version>
         </dependency>
-
+<!--日志输出工具，是slf4j的SPI，当然也可以换成其他的-->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
@@ -107,7 +112,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>${spring-boot.version}</version> <!-- 添加版本 -->
+                <version>${spring-boot.version}</version>
                 <configuration>
                     <includeSystemScope>true</includeSystemScope>
                 </configuration>
@@ -220,5 +225,34 @@
             </activation>
         </profile>
     </profiles>
+
+
+
+    <repositories>
+        <repository>
+            <id>alimaven</id>
+            <name>aliyun maven</name>
+            <url>https://maven.aliyun.com/nexus/content/repositories/central/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>alimaven</id>
+            <name>aliyun maven</name>
+            <url>https://maven.aliyun.com/nexus/content/repositories/central/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
 
 </project>

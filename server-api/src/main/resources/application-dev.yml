@@ -6,3 +6,24 @@ spring:
     url: jdbc:mysql://localhost:3306/personal-diary?useUnicode=true&useSSL=false&characterEncoding=utf8&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai&allowMultiQueries=true
     username: root
     password: root
+
+  data:
+    redis:
+      database: 0
+      port: 6379
+      host: localhost
+      password:
+      lettuce:
+        # 应用程序关闭时Lettuce 将等待最多 3 秒钟来完成关闭操作。如果超过这个时间仍未完成，则会强制关闭连接。
+        shutdown-timeout: 3000
+
+
+ali:
+  accessKeyId: 你的阿里云账号accessKeyId
+  accessKeySecret: 你的阿里云账号accessKeySecret
+  sms:
+    enable: true
+    endpoint: dysmsapi.aliyuncs.com
+    region: cn-hangzhou
+
+

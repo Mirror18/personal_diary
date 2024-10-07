@@ -1,7 +1,7 @@
 package com.mirror.exception;
 
 import com.mirror.constant.ApiResponseCode;
-import com.mirror.dto.ApiResponse;
+import com.mirror.result.ApiResponse;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Path;
 import jakarta.validation.constraints.NotNull;
@@ -64,21 +64,21 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
-//    /**
-//     * 业务处理异常
-//     *
-//     * @return ResponseEntity<ApiResponse>
-//     */
-//    @ExceptionHandler(BizException.class)
-//    public ResponseEntity<ApiResponse<Object>> apiErrorException(BizException bizException) {
-//        log.info("BizException:", bizException);
-//        // 返回响应对象
-//        ApiResponse<Object> apiResponse = new ApiResponse<>();
-//        Map<String, String> errors = new HashMap<>();
-//        errors.put(ApiResponseCode.BUSINESS_ERROR.getMessage(), bizException.getMessage());
-//        apiResponse.error(bizException.getCode(), errors);
-//        return new ResponseEntity<>(apiResponse, HttpStatus.INTERNAL_SERVER_ERROR);
-//    }
+    /**
+     * 业务处理异常
+     *
+     * @return ResponseEntity<ApiResponse>
+     */
+    @ExceptionHandler(BizException.class)
+    public ResponseEntity<ApiResponse<Object>> apiErrorException(BizException bizException) {
+        log.info("BizException:", bizException);
+        // 返回响应对象
+        ApiResponse<Object> apiResponse = new ApiResponse<>();
+        Map<String, String> errors = new HashMap<>();
+        errors.put(ApiResponseCode.BUSINESS_ERROR.getMessage(), bizException.getMessage());
+        apiResponse.error(bizException.getCode(), errors);
+        return new ResponseEntity<>(apiResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 
     /**
      *登录异常
@@ -94,33 +94,22 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(apiResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-//    /**
-//     * BindException异常处理
-//     * BindException: 作用于@Validated @Valid 注解
-//     * 仅对于表单提交参数进行异常处理，对于以json格式提交将会失效
-//     * 只对实体参数进行校验
-//     * 注：Controller类里面的方法必须加上@Validated 注解
-//     *
-//     * @param ex BindException异常信息
-//     * @return 响应数据
-//     */
-//    @Override
-//    protected ResponseEntity<Object> handleBindException(BindException ex, HttpHeaders headers,
-//                                                         HttpStatusCode status, WebRequest request) {
-//        log.error("BindException:", ex);
-//        // 返回响应对象
-//        return getObjectResponseEntity(ex);
-//    }
-
-    @NotNull
-    private ResponseEntity<Object> getObjectResponseEntity(BindException ex) {
-        ApiResponse<Object> apiResponse = new ApiResponse<>();
-        Map<String, String> errors = new HashMap<>();
-        ex.getFieldErrors().forEach(p -> {
-            errors.put(p.getField(), p.getDefaultMessage());
-        });
-        apiResponse.error(ApiResponseCode.PARAMETER_INVALID.getCode(), errors);
-        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+    /**
+     * BindException异常处理
+     * BindException: 作用于@Validated @Valid 注解
+     * 仅对于表单提交参数进行异常处理，对于以json格式提交将会失效
+     * 只对实体参数进行校验
+     * 注：Controller类里面的方法必须加上@Validated 注解
+     *
+     * @param ex BindException异常信息
+     * @return 响应数据
+     */
+    @Override
+    protected ResponseEntity<Object> handleBindException(BindException ex, HttpHeaders headers,
+                                                         HttpStatusCode status, WebRequest request) {
+        log.error("BindException:", ex);
+        // 返回响应对象
+        return getObjectResponseEntity(ex);
     }
 
     /**
@@ -138,6 +127,19 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         // 返回响应对象
         return getObjectResponseEntity(ex);
     }
+
+
+    @NotNull
+    private ResponseEntity<Object> getObjectResponseEntity(BindException ex) {
+        ApiResponse<Object> apiResponse = new ApiResponse<>();
+        Map<String, String> errors = new HashMap<>();
+        ex.getFieldErrors().forEach(p -> {
+            errors.put(p.getField(), p.getDefaultMessage());
+        });
+        apiResponse.error(ApiResponseCode.PARAMETER_INVALID.getCode(), errors);
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+    }
+
 
     /**
      * ConstraintViolationException-jsr规范中的验证异常，嵌套检验问题

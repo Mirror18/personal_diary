@@ -1,4 +1,4 @@
-package com.mirror.dto;
+package com.mirror.result;
 
 
 import lombok.Data;
